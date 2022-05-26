@@ -40,21 +40,20 @@ noremap Q !!$SHELL<CR>
 " If none is found, it runs v in the current directory.
 " The output is simply echoed to the screen.
 function! RunVProgram()
-  :let mod_file_path = 
+  let mod_file_path = 
     \ trim(system('find ./ ../ ../../ ../../../ -maxdepth 1 -iname "v.mod"'))
   " The result is something like "../v.mod".
-  ":echomsg mod_file_path
+
   " This will remove the filename like "../".
-  :let mod_file_dir = substitute(mod_file_path, 
+  let mod_file_dir = substitute(mod_file_path, 
                           \'v.mod$', '', '')
-  ":echomsg mod_file_dir
   " If the substitution result is "", meaning no .mod file was found,
   " make sure to have at least a "." there.
   if len(mod_file_dir) == 0
     let mod_file_dir = "."
   endif
-  :let run_output = system('v -cg run '.mod_file_dir)
-  :echo run_output
+  let run_output = system('v -cg run '.mod_file_dir)
+  echo run_output
 endfunction
 
 nnoremap <F9> :<C-u>call RunVProgram()<CR>
