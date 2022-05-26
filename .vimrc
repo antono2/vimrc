@@ -36,17 +36,17 @@ noremap Q !!$SHELL<CR>
 
 """ Vlang Stuff
 
-" Looks for a .mod file up to 3 parent directories and runs v in there.
+" Looks for a v.mod file up to 3 parent directories and runs v in there.
 " If none is found, it runs v in the current directory.
 " The output is simply echoed to the screen.
 function! RunVProgram()
   :let mod_file_path = 
-    \ trim(system('find ./ ../ ../../ ../../../ -maxdepth 1 -iname "*.mod"'))
+    \ trim(system('find ./ ../ ../../ ../../../ -maxdepth 1 -iname "v.mod"'))
   " The result is something like "../v.mod".
   ":echomsg mod_file_path
   " This will remove the filename like "../".
   :let mod_file_dir = substitute(mod_file_path, 
-                          \'[a-zA-Z0-9_]*.mod$', '', '')
+                          \'v.mod$', '', '')
   ":echomsg mod_file_dir
   " If the substitution result is "", meaning no .mod file was found,
   " make sure to have at least a "." there.
