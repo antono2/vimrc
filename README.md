@@ -1,6 +1,6 @@
 # vimrc
 This .vimrc includes a function `RunVProgram()` to run vlang [V](https://vlang.io/) programs on pressing `<F9>` in normal mode.
-It looks up the .mod file in up to 3 parent directories using the systems find tool.
+It looks up the v.mod file in up to 3 parent directories using the systems find tool.
 In case there is none, it will run `v -cg run .` in the current directory.<br>
 The program output is simply echoed.<br>
 <br>
