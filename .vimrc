@@ -1,4 +1,4 @@
-" enter the current millenium
+  " enter the current millenium
 set nocompatible
 
 " enable syntax and plugins (for netrw)
@@ -6,7 +6,7 @@ syntax enable
 " Is off by v-vim, as vim itself doesn't know vlang
 " filetype plugin on
 
-" Indenting
+" Detect filetype on, used with autocmd FileType, and autoindent
 filetype indent on
 set shiftwidth=2
 " don't use actual tab character
@@ -34,6 +34,20 @@ autocmd SwapExists * let v:swapchoice = "e"
 noremap Q !!$SHELL<CR>
 
 
+""" Line numbers stuff
+" Line numbers ON
+:set number
+
+" Automaticall switch line numbers on entering edit mode
+" Line numbers are kept on when switching buffers
+:augroup numbertoggle
+:  autocmd!
+:  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+:  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+:augroup END
+
+
+
 """ Vlang Stuff
 
 " Looks for a v.mod file up to 3 parent directories and runs v in there.
@@ -56,6 +70,15 @@ function! RunVProgram()
   echo run_output
 endfunction
 
-nnoremap <F9> :<C-u>call RunVProgram()<CR>
+nnoremap <F10> :<C-u>call RunVProgram()<CR>
+inoremap <F10> <ESC>:<C-u>call RunVProgram()<CR>
 
+" Save File :w
+nnoremap <F9> :<C-u> w<CR>
+" In insert mode go back to insert after saving
+inoremap <F9> <ESC>:w<CR>a
 
+" When typing exactly ' {}' add new line and insert mode in between.
+" It also fixes annoying autoindent issue when closing } and removes the spaces
+" substitute matches all whitespaces (tabs etc.) at the beginning of the line;
+ab  {} {<CR>}<ESC>:substitute /^\s\+//e<ESC>O
